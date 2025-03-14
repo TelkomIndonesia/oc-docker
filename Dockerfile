@@ -1,8 +1,11 @@
 FROM alpine:3.18.4 AS oc
 
+ARG TARGETARCH
 WORKDIR /workspace
-RUN wget -nv https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz  \
-  && tar -xzf openshift-client-linux.tar.gz
+RUN \
+    wget -nv "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux-${TARGETARCH}.tar.gz" -O oc.tar.gz  \
+    || wget -nv "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz" -O oc.tar.gz
+RUN tar -xzf oc.tar.gz
 
 
 
