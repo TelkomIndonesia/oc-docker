@@ -10,7 +10,12 @@ RUN tar -xzf oc.tar.gz
 
 
 FROM ubuntu:24.04
-COPY --from=docker:cli /usr/local/bin/docker /usr/local/bin/docker
+
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+    COPY --from=docker:cli /usr/local/bin/docker /usr/local/bin/docker
 COPY --from=ghcr.io/jqlang/jq /jq /usr/local/bin/jq
 COPY --from=mikefarah/yq /usr/bin/yq /usr/local/bin/yq
 COPY --from=hashicorp/vault /bin/vault /usr/local/bin/vault
